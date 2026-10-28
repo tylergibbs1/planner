@@ -1,82 +1,18 @@
 # LLM-Assisted Planner with DSPy
 
-A sophisticated planning system that leverages Large Language Models (LLMs) through DSPy to solve large-scale planning problems via problem decomposition and intelligent search space pruning.
+A DSPy implementation of an LLM-assisted planner that solves large planning problems by
+decomposing them into sub-tasks and using an LLM to prune the search space.
 
 **Based on**: *"Inspire or Predict? Exploring New Paradigms in Assisting Classical Planners with Large Language Models"*
 Yu et al., arXiv:2508.11524 [cs.AI], August 2025
 
-## Overview
-
-This implementation is based on the research paper that addresses large-scale planning challenges by:
-
-1. **Problem Decomposition**: Breaking complex planning problems into simpler sub-tasks
-2. **LLM-Guided Search**: Using LLMs to prune the search space and provide heuristic guidance
-3. **Two Paradigms**:
-   - **LLM4Inspire**: Uses general LLM knowledge for heuristic guidance
-   - **LLM4Predict**: Uses domain-specific knowledge to predict intermediate conditions
-
-## Features
-
-- ✅ **Problem Decomposition**: Automatically breaks down large planning problems into manageable sub-tasks
-- ✅ **Multiple Guidance Modes**: LLM4Inspire, LLM4Predict, and Hybrid approaches
-- ✅ **Plan Validation**: Validates generated plans against domain constraints
-- ✅ **Search Space Pruning**: Intelligently reduces search space using LLM guidance
-- ✅ **Optimization Support**: Built-in DSPy optimizers (BootstrapFewShot, MIPROv2, Random Search)
-- ✅ **Multiple Domains**: Academic examples (Blocks World, Logistics, Robot Navigation) + Real-world business examples (Supply Chain, Manufacturing, Marketing, etc.)
-
-## Architecture
-
-### Core Components
-
-```
-planner/
-├── signatures.py          # DSPy signatures defining LLM interfaces
-├── modules.py             # DSPy modules implementing planning components
-├── planner.py             # Main planner orchestrator
-├── optimizer.py           # Optimization and training utilities
-├── example.py             # Academic examples (Blocks World, Logistics, etc.)
-├── business_examples.py   # Real-world business scenarios
-├── requirements.txt       # Python dependencies
-├── LICENSE                # GNU General Public License v3.0
-├── CITATION.bib          # BibTeX citation for the research paper
-└── README.md             # This file
-```
-
-### Key Modules
-
-1. **Signatures** (`signatures.py`):
-   - `DecomposeProblem`: Decompose planning problems into sub-tasks
-   - `InspireHeuristic`: Provide general knowledge-based guidance
-   - `PredictIntermediateConditions`: Predict intermediate states with domain knowledge
-   - `ValidatePlan`: Validate plan correctness
-   - `GenerateSearchHeuristic`: Generate heuristic values for search
-   - `RefineSubTask`: Refine sub-tasks based on feedback
-
-2. **Modules** (`modules.py`):
-   - `ProblemDecomposer`: Decomposes problems into sub-tasks
-   - `LLM4InspireModule`: General knowledge guidance
-   - `LLM4PredictModule`: Domain-specific predictions
-   - `PlanValidator`: Plan validation
-   - `SearchSpacePruner`: Search space reduction
-   - `HybridGuidanceModule`: Combines both paradigms
-
-3. **Planners** (`planner.py`):
-   - `LLMAssistedPlanner`: Main planner with configurable guidance modes
-   - `IncrementalPlanner`: Extends base planner with incremental search
-
-## Installation
+## Quick start
 
 ```bash
-# Install required dependencies
-pip install dspy-ai openai
-
-# Set your OpenAI API key
+pip install -r requirements.txt
 export OPENAI_API_KEY='your-api-key-here'
+python example.py
 ```
-
-## Quick Start
-
-### Basic Usage
 
 ```python
 import dspy
@@ -108,20 +44,68 @@ print("Sub-tasks:", result.sub_tasks)
 print("Is Valid:", result.is_valid)
 ```
 
-### Running Examples
+`example.py` runs Blocks World, logistics delivery, and robot navigation problems, then compares
+all guidance modes.
 
-```bash
-# Run the Blocks World example
-python example.py
+## How it works
+
+This implementation is based on the research paper that addresses large-scale planning challenges by:
+
+1. **Problem Decomposition**: Breaking complex planning problems into simpler sub-tasks
+2. **LLM-Guided Search**: Using LLMs to prune the search space and provide heuristic guidance
+3. **Two Paradigms**:
+   - **LLM4Inspire**: Uses general LLM knowledge for heuristic guidance
+   - **LLM4Predict**: Uses domain-specific knowledge to predict intermediate conditions
+
+### Core components
+
+```
+planner/
+├── signatures.py          # DSPy signatures defining LLM interfaces
+├── modules.py             # DSPy modules implementing planning components
+├── planner.py             # Main planner orchestrator
+├── optimizer.py           # Optimization and training utilities
+├── example.py             # Academic examples (Blocks World, Logistics, etc.)
+├── business_examples.py   # Real-world business scenarios
+├── requirements.txt       # Python dependencies
+├── LICENSE                # GNU General Public License v3.0
+├── CITATION.bib          # BibTeX citation for the research paper
+├── .github/CONTRIBUTING.md # Contribution guidelines
+└── README.md             # This file
 ```
 
-The example script demonstrates:
-- Blocks World planning
-- Logistics delivery planning
-- Robot navigation planning
-- Comparison of all guidance modes
+### Key modules
 
-## Guidance Modes
+1. **Signatures** (`signatures.py`):
+   - `DecomposeProblem`: Decompose planning problems into sub-tasks
+   - `InspireHeuristic`: Provide general knowledge-based guidance
+   - `PredictIntermediateConditions`: Predict intermediate states with domain knowledge
+   - `ValidatePlan`: Validate plan correctness
+   - `GenerateSearchHeuristic`: Generate heuristic values for search
+   - `RefineSubTask`: Refine sub-tasks based on feedback
+
+2. **Modules** (`modules.py`):
+   - `ProblemDecomposer`: Decomposes problems into sub-tasks
+   - `LLM4InspireModule`: General knowledge guidance
+   - `LLM4PredictModule`: Domain-specific predictions
+   - `PlanValidator`: Plan validation
+   - `SearchSpacePruner`: Search space reduction
+   - `HybridGuidanceModule`: Combines both paradigms
+
+3. **Planners** (`planner.py`):
+   - `LLMAssistedPlanner`: Main planner with configurable guidance modes
+   - `IncrementalPlanner`: Extends base planner with incremental search
+
+## Features
+
+- ✅ **Problem Decomposition**: Automatically breaks down large planning problems into manageable sub-tasks
+- ✅ **Multiple Guidance Modes**: LLM4Inspire, LLM4Predict, and Hybrid approaches
+- ✅ **Plan Validation**: Validates generated plans against domain constraints
+- ✅ **Search Space Pruning**: Intelligently reduces search space using LLM guidance
+- ✅ **Optimization Support**: Built-in DSPy optimizers (BootstrapFewShot, MIPROv2, Random Search)
+- ✅ **Multiple Domains**: Academic examples (Blocks World, Logistics, Robot Navigation) + Real-world business examples (Supply Chain, Manufacturing, Marketing, etc.)
+
+## Guidance modes
 
 ### LLM4Inspire (General Knowledge)
 
@@ -204,7 +188,7 @@ print(f"Validity Rate: {results['validity_rate']:.1%}")
 2. **MIPROv2**: Advanced prompt optimization with instruction refinement
 3. **BootstrapFewShotWithRandomSearch**: Random search over prompt variations
 
-## Example Domains
+## Example domains
 
 ### Academic Examples (example.py)
 
@@ -273,7 +257,7 @@ result = run_business_example(event_planning, GuidanceMode.PREDICT)
 ```
 *Use case:* Manage venue booking, speaker coordination, catering, budget constraints
 
-## Advanced Features
+## Advanced features
 
 ### Sub-Task Refinement
 
@@ -323,7 +307,7 @@ optimizer = PlannerOptimizer(planner, optimizer_type="bootstrap")
 optimized = optimizer.optimize(trainset, metric=custom_metric)
 ```
 
-## Performance Tips
+## Performance tips
 
 1. **Choose the Right Mode**:
    - Use `PREDICT` for well-defined domains
@@ -347,7 +331,23 @@ optimized = optimizer.optimize(trainset, metric=custom_metric)
    - Use GPT-4o-mini for faster, cost-effective planning
    - Use GPT-3.5-turbo for simple problems
 
-## Research Background
+## Troubleshooting
+
+**Issue**: Plans are invalid
+- **Solution**: Provide clearer domain constraints, enable refinement, or use PREDICT mode
+
+**Issue**: Decomposition creates too many sub-tasks
+- **Solution**: Reduce `max_sub_tasks` parameter or provide clearer problem descriptions
+
+**Issue**: Slow planning
+- **Solution**: Use a faster model (gpt-4o-mini), reduce `max_iterations`, or optimize the planner
+
+**Issue**: Optimization not improving
+- **Solution**: Create more/better training examples, try different optimizer types, or adjust metric weights
+
+Still stuck? Check the examples in `example.py`, read the module docstrings in the source files, and try different guidance modes and parameters.
+
+## Research background
 
 This implementation is based on the research paper:
 
@@ -396,6 +396,12 @@ To extend this planner:
 3. **Add Domains**: Create domain-specific examples in `example.py`
 4. **Improve Optimization**: Add custom metrics in `optimizer.py`
 
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for guidelines.
+
+## Acknowledgments
+
+This implementation faithfully reproduces the approach described in the research paper by Yu et al. We thank the authors for their groundbreaking work on integrating LLMs with classical planning through problem decomposition and the innovative LLM4Inspire/LLM4Predict paradigms.
+
 ## License
 
 This project is licensed under the **GNU General Public License v3.0** (GPL-3.0).
@@ -413,28 +419,3 @@ But you must:
 - 📋 Include the original license and copyright
 - 📋 State any changes made to the code
 - 📋 Release any modifications under GPL-3.0
-
-## Acknowledgments
-
-This implementation faithfully reproduces the approach described in the research paper by Yu et al. We thank the authors for their groundbreaking work on integrating LLMs with classical planning through problem decomposition and the innovative LLM4Inspire/LLM4Predict paradigms.
-
-## Troubleshooting
-
-**Issue**: Plans are invalid
-- **Solution**: Provide clearer domain constraints, enable refinement, or use PREDICT mode
-
-**Issue**: Decomposition creates too many sub-tasks
-- **Solution**: Reduce `max_sub_tasks` parameter or provide clearer problem descriptions
-
-**Issue**: Slow planning
-- **Solution**: Use a faster model (gpt-4o-mini), reduce `max_iterations`, or optimize the planner
-
-**Issue**: Optimization not improving
-- **Solution**: Create more/better training examples, try different optimizer types, or adjust metric weights
-
-## Support
-
-For questions or issues:
-1. Check the examples in `example.py`
-2. Review the module documentation in source files
-3. Experiment with different guidance modes and parameters
